@@ -1,0 +1,36 @@
+@model LoginViewModel
+@{
+    ViewData["Title"] = "Sign in";
+}
+
+<section class="auth-page">
+    <div class="auth-card">
+        <div class="auth-brand"><span class="brand-mark" aria-hidden="true">G</span><span>grade<span class="brand-light">book</span></span></div>
+        <div class="form-title auth-title">
+            <p class="eyebrow">WELCOME BACK</p>
+            <h1>Sign in to Gradebook</h1>
+            <p>Manage your student grades securely.</p>
+        </div>
+        <form asp-action="Login" method="post">
+            <input asp-for="ReturnUrl" type="hidden" />
+            <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+            <div class="form-field">
+                <label asp-for="Email"></label>
+                <input asp-for="Email" autocomplete="username" placeholder="you@example.com" />
+                <span asp-validation-for="Email" class="field-error"></span>
+            </div>
+            <div class="form-field">
+                <label asp-for="Password"></label>
+                <input asp-for="Password" autocomplete="current-password" placeholder="Your password" />
+                <span asp-validation-for="Password" class="field-error"></span>
+            </div>
+            <label class="remember-field"><input asp-for="RememberMe" /> <span>Remember me</span></label>
+            <button type="submit" class="button button-primary auth-submit">Sign in</button>
+        </form>
+        <p class="auth-switch">New to Gradebook? <a asp-action="Register">Create an account</a></p>
+    </div>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

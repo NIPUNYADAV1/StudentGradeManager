@@ -1,0 +1,7 @@
+bin/
+obj/
+App_Data/grades.json
+App_Data/grades.json.tmp
+App_Data/gradebook.db
+App_Data/gradebook.db-shm
+App_Data/gradebook.db-wal

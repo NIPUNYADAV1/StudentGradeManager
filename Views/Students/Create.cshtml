@@ -1,0 +1,23 @@
+@model GradeEntry
+@{
+    ViewData["Title"] = "Add grade";
+    ViewData["SubmitLabel"] = "Save grade";
+}
+
+<section class="form-page">
+    <a asp-action="Index" class="back-link">← Back to grades</a>
+    <div class="form-card">
+        <div class="form-title">
+            <p class="eyebrow">NEW RECORD</p>
+            <h1>Add a grade</h1>
+            <p>Enter the student and course details below.</p>
+        </div>
+        <form asp-action="Create" method="post">
+            <partial name="_GradeForm" model="Model" />
+        </form>
+    </div>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

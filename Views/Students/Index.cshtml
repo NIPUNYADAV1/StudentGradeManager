@@ -1,0 +1,92 @@
+@model GradeDashboardViewModel
+@{
+    ViewData["Title"] = "Grade overview";
+}
+
+<section class="dashboard-heading">
+    <div>
+        <p class="eyebrow">ACADEMIC OVERVIEW</p>
+        <h1>Student grades</h1>
+        <p class="page-subtitle">Track performance and keep every course on course.</p>
+    </div>
+    <a class="button button-primary" asp-action="Create"><span aria-hidden="true">+</span> Add grade</a>
+</section>
+
+@if (TempData["SuccessMessage"] is string message)
+{
+    <div class="notice" role="status">@message</div>
+}
+
+<section class="stats-grid" aria-label="Grade statistics">
+    <article class="stat-card">
+        <span class="stat-icon icon-blue" aria-hidden="true">♙</span>
+        <div><p>Total students</p><strong>@Model.StudentCount</strong><span class="stat-note">Unique student records</span></div>
+    </article>
+    <article class="stat-card">
+        <span class="stat-icon icon-purple" aria-hidden="true">▤</span>
+        <div><p>Courses</p><strong>@Model.CourseCount</strong><span class="stat-note">Across all grade entries</span></div>
+    </article>
+    <article class="stat-card">
+        <span class="stat-icon icon-green" aria-hidden="true">↗</span>
+        <div><p>Average score</p><strong>@Model.AverageScore.ToString("0.0")<small>%</small></strong><span class="stat-note">Overall class average</span></div>
+    </article>
+    <article class="stat-card">
+        <span class="stat-icon icon-orange" aria-hidden="true">✓</span>
+        <div><p>Pass rate</p><strong>@Model.PassRate.ToString("0")<small>%</small></strong><span class="stat-note">Scores of 60% and above</span></div>
+    </article>
+</section>
+
+<section class="table-card">
+    <div class="table-heading">
+        <div>
+            <h2>Grade records</h2>
+            <p>Review and manage student performance.</p>
+        </div>
+        <form asp-action="Index" method="get" class="search-form">
+            <label class="visually-hidden" for="search">Search students or courses</label>
+            <span aria-hidden="true">⌕</span>
+            <input id="search" name="search" value="@Model.SearchTerm" placeholder="Search students or courses..." />
+            @if (!string.IsNullOrWhiteSpace(Model.SearchTerm))
+            {
+                <a class="clear-search" asp-action="Index" aria-label="Clear search">×</a>
+            }
+        </form>
+    </div>
+
+    <div class="table-responsive">
+        <table class="grade-table">
+            <thead>
+                <tr><th>STUDENT</th><th>STUDENT ID</th><th>COURSE</th><th>SCORE</th><th>GRADE</th><th>STATUS</th><th><span class="visually-hidden">Actions</span></th></tr>
+            </thead>
+            <tbody>
+            @if (Model.Entries.Count == 0)
+            {
+                <tr><td colspan="7" class="empty-state">No grade records found. Try another search or add a grade.</td></tr>
+            }
+            else
+            {
+                @foreach (var entry in Model.Entries)
+                {
+                    <tr>
+                        <td><div class="student-cell"><span class="avatar">@entry.StudentName.Substring(0, 1).ToUpperInvariant()</span><strong>@entry.StudentName</strong></div></td>
+                        <td class="muted-cell">@entry.StudentId</td>
+                        <td>@entry.Course</td>
+                        <td><strong>@entry.Score%</strong></td>
+                        <td><span class="grade-badge grade-@entry.LetterGrade.ToLowerInvariant()">@entry.LetterGrade</span></td>
+                        <td><span class="status-badge @(entry.Score >= 60 ? "status-pass" : "status-fail")"><span></span>@(entry.Score >= 60 ? "Passed" : "Needs support")</span></td>
+                        <td>
+                            <div class="row-actions">
+                                <a asp-action="Edit" asp-route-id="@entry.Id" class="action-link">Edit</a>
+                                <form asp-action="Delete" asp-route-id="@entry.Id" method="post" onsubmit="return confirm('Delete this grade record?');">
+                                    <button type="submit" class="action-link action-delete">Delete</button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            }
+            </tbody>
+        </table>
+    </div>
+    <div class="table-footer">Showing <strong>@Model.Entries.Count</strong> grade record@(Model.Entries.Count == 1 ? "" : "s")</div>
+</section>

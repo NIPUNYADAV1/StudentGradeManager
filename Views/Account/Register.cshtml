@@ -1,0 +1,39 @@
+@model RegisterViewModel
+@{
+    ViewData["Title"] = "Create account";
+}
+
+<section class="auth-page">
+    <div class="auth-card">
+        <div class="auth-brand"><span class="brand-mark" aria-hidden="true">G</span><span>grade<span class="brand-light">book</span></span></div>
+        <div class="form-title auth-title">
+            <p class="eyebrow">GET STARTED</p>
+            <h1>Create your account</h1>
+            <p>Your grades stay private to your account.</p>
+        </div>
+        <form asp-action="Register" method="post">
+            <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+            <div class="form-field">
+                <label asp-for="Email"></label>
+                <input asp-for="Email" autocomplete="email" placeholder="you@example.com" />
+                <span asp-validation-for="Email" class="field-error"></span>
+            </div>
+            <div class="form-field">
+                <label asp-for="Password"></label>
+                <input asp-for="Password" autocomplete="new-password" placeholder="At least 8 characters" />
+                <span asp-validation-for="Password" class="field-error"></span>
+            </div>
+            <div class="form-field">
+                <label asp-for="ConfirmPassword"></label>
+                <input asp-for="ConfirmPassword" autocomplete="new-password" placeholder="Re-enter your password" />
+                <span asp-validation-for="ConfirmPassword" class="field-error"></span>
+            </div>
+            <button type="submit" class="button button-primary auth-submit">Create account</button>
+        </form>
+        <p class="auth-switch">Already have an account? <a asp-action="Login">Sign in</a></p>
+    </div>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,44 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f6f8fc" />
+    <title>@ViewData["Title"] · Gradebook</title>
+    <script type="importmap"></script>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <header class="site-header">
+        <nav class="topbar" aria-label="Main navigation">
+            <a class="brand" asp-controller="Students" asp-action="Index">
+                <span class="brand-mark" aria-hidden="true">G</span>
+                <span>grade<span class="brand-light">book</span></span>
+            </a>
+            <a class="nav-current" asp-controller="Students" asp-action="Index">Grade overview</a>
+            @if (User.Identity?.IsAuthenticated == true)
+            {
+                <div class="account-nav">
+                    <span class="account-email">@User.Identity.Name</span>
+                    <form asp-controller="Account" asp-action="Logout" method="post">
+                        <button type="submit" class="account-link">Sign out</button>
+                    </form>
+                </div>
+            }
+            else
+            {
+                <div class="account-nav">
+                    <a class="account-link" asp-controller="Account" asp-action="Login">Sign in</a>
+                    <a class="button button-primary nav-register" asp-controller="Account" asp-action="Register">Create account</a>
+                </div>
+            }
+        </nav>
+    </header>
+    <main class="main-content" role="main">
+            @RenderBody()
+    </main>
+    <footer class="site-footer"><span>Gradebook</span><span>Simple, clear student progress tracking.</span></footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,30 @@
+@model GradeEntry
+
+<div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+<div class="form-grid">
+    <div class="form-field">
+        <label asp-for="StudentName"></label>
+        <input asp-for="StudentName" placeholder="e.g. Jordan Lee" autocomplete="name" />
+        <span asp-validation-for="StudentName" class="field-error"></span>
+    </div>
+    <div class="form-field">
+        <label asp-for="StudentId"></label>
+        <input asp-for="StudentId" placeholder="e.g. ST-1006" />
+        <span asp-validation-for="StudentId" class="field-error"></span>
+    </div>
+    <div class="form-field">
+        <label asp-for="Course"></label>
+        <input asp-for="Course" placeholder="e.g. Mathematics" />
+        <span asp-validation-for="Course" class="field-error"></span>
+    </div>
+    <div class="form-field">
+        <label asp-for="Score"></label>
+        <div class="score-input"><input asp-for="Score" min="0" max="100" /><span>%</span></div>
+        <span asp-validation-for="Score" class="field-error"></span>
+        <small>Enter a score between 0 and 100.</small>
+    </div>
+</div>
+<div class="form-actions">
+    <a asp-action="Index" class="button button-secondary">Cancel</a>
+    <button type="submit" class="button button-primary">@ViewData["SubmitLabel"]</button>
+</div>
